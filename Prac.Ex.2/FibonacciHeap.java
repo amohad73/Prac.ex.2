@@ -1,6 +1,3 @@
-import java.util.List;
-import java.util.ArrayList;
-
 /**
  * FibonacciHeap
  *
@@ -114,6 +111,7 @@ public class FibonacciHeap
 	}
 
 	public int CSLinking() {
+		java.util.ArrayList<Object> lst = new java.util.ArrayList<>();
 		int max = this.min.rank;
 		HeapNode node = this.min;
 		for (int i = 0; i < this.nTrees; i++) {
@@ -121,7 +119,6 @@ public class FibonacciHeap
 				max = node.rank;
 			}
 		}
-		List<HeapNode> lst = new ArrayList<>();
 		for (int i = 0; i <= max; i++) {
 			lst.add(null);
 		}
@@ -137,13 +134,13 @@ public class FibonacciHeap
 			curr.next = curr;
 			curr.prev = curr;
 			while (!(lst.get(tmp.rank) == null)) {
-				if (lst.get(tmp.rank).key < tmp.key) {
-					up = lst.get(tmp.rank);
+				if (((HeapNode)lst.get(tmp.rank)).key < tmp.key) {
+					up = (HeapNode)lst.get(tmp.rank);
 					down = tmp;
 				}
 				else {
 					up = tmp;
-					down = lst.get(tmp.rank);
+					down = (HeapNode)lst.get(tmp.rank);
 				}
 				if (!(tmp.rank == 0)) {
 					down.next = up.child;
@@ -171,13 +168,13 @@ public class FibonacciHeap
 		this.min.next = this.min;
 		System.out.println(lst);
 		for (int i = 0; i < lst.size(); i++) {
-			if ((lst.get(i) == null) || (lst.get(i).key == this.min.key)) {
+			if ((lst.get(i) == null) || (((HeapNode)lst.get(i)).key == this.min.key)) {
 				continue;
 			}
-			n.prev = lst.get(i);
-			lst.get(i).prev = p;
-			p.next  = lst.get(i);
-			lst.get(i).next = n;
+			n.prev = (HeapNode)lst.get(i);
+			((HeapNode)lst.get(i)).prev = p;
+			p.next  = (HeapNode)lst.get(i);
+			((HeapNode)lst.get(i)).next = n;
 		}
 		return cnt;
 	}
@@ -205,7 +202,8 @@ public class FibonacciHeap
 	 */
 	public int delete(HeapNode x) 
 	{    
-		return 46; // should be replaced by student code
+		this.decreaseKey(x, x.key-this.min.key+1);
+		return this.deleteMin(); // should be replaced by student code
 	}
 
 
@@ -238,6 +236,13 @@ public class FibonacciHeap
 	 */
 	public void meld(FibonacciHeap heap2)
 	{
+		heap2.min.prev.next = this.min.next;
+		this.min.next.prev = heap2.min.prev;
+		heap2.min.prev = this.min;
+		this.min.next = heap2.min;
+		if (this.min.key > heap2.min.key) {
+					this.min = heap2.min;
+		}
 		return; // should be replaced by student code   		
 	}
 
