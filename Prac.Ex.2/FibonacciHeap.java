@@ -1,3 +1,4 @@
+
 /**
  * FibonacciHeap
  *
@@ -83,6 +84,8 @@ public class FibonacciHeap
 			else {
 				this.min.prev.next = node;
 				this.min.next.prev = node.prev;
+				node.prev.next = this.min.next;
+				node.prev = this.min.prev;
 		
 			}
 		}
@@ -94,6 +97,7 @@ public class FibonacciHeap
 		}
 		for (int i = 0; i < this.min.rank; i++) {
 			node.parent = null;
+			node = node.next;
 		}
 		HeapNode curr = node;
 		if (this.min.rank == 0) {
@@ -118,6 +122,7 @@ public class FibonacciHeap
 			if (max < node.rank) {
 				max = node.rank;
 			}
+			node = node.next;
 		}
 		for (int i = 0; i <= max; i++) {
 			lst.add(null);
@@ -189,11 +194,44 @@ public class FibonacciHeap
 	 */
 	public int decreaseKey(HeapNode x, int diff) 
 	{    
-		/*x.key -= diff;
-		x.parent.*/
-		return 46; // should be replaced by student code
+		x.key -= diff;
+		int m = x.mark;
+		int n = this.cascadingCuts(x);
+		x.mark = m;
+		
+		return n; // should be replaced by student code
 	}
 
+	public int cascadingCuts(HeapNode x) {
+		if (x.parent == null) {
+			return 0;
+		}
+		x.parent.rank -= 1;
+		this.nTrees += 1;
+		x.mark = 0;
+		x.parent.mark += 1;
+		if (x.next == x) {
+			x.parent.child = null;
+		}
+		else{
+			if (x.parent.child == x) {
+				x.parent.child = x.next;
+			}
+			x.next.prev = x.prev;
+			x.prev.next = x.next;
+		}
+		HeapNode tmp = x.parent;
+		x.parent = null;
+		x.next = this.min.next;
+		x.prev = this.min;
+		x.next.prev = x;
+		this.min.next = x;
+		if (tmp.mark == c) {
+			return this.cascadingCuts(tmp)+1;
+		}
+		return 1;
+	}
+	
 	/**
 	 * 
 	 * Delete the x from the heap.
@@ -279,6 +317,7 @@ public class FibonacciHeap
 		public HeapNode prev;
 		public HeapNode parent;
 		public int rank;
+		public int mark;
 		
 		public HeapNode(int key, String info, HeapNode child, HeapNode next, HeapNode prev, HeapNode parent, int rank) {
 			this.key = key;
@@ -288,6 +327,7 @@ public class FibonacciHeap
 			this.prev = prev;
 			this.parent = parent;
 			this.rank = rank;
+			this.mark = 0;
 		}
 	}
 }
