@@ -73,8 +73,6 @@ public class FibonacciHeap
 	 */
 	public int deleteMin()
 	{
-		this.size -= 1;
-		this.nTrees += this.min.rank - 1;
 		HeapNode node = this.min.child;
 		if (!(this.nTrees == 1)) {
 			if (this.min.rank == 0) {
@@ -99,6 +97,10 @@ public class FibonacciHeap
 			node.parent = null;
 			node = node.next;
 		}
+		
+		this.size -= 1;
+		this.nTrees += this.min.rank - 1;
+		
 		HeapNode curr = node;
 		if (this.min.rank == 0) {
 			curr = this.min.next;
@@ -198,6 +200,9 @@ public class FibonacciHeap
 		int m = x.mark;
 		int n = this.cascadingCuts(x);
 		x.mark = m;
+		if (x.key < this.min.key) {
+			this.min = x;
+		}
 		
 		return n; // should be replaced by student code
 	}
@@ -281,6 +286,10 @@ public class FibonacciHeap
 		if (this.min.key > heap2.min.key) {
 					this.min = heap2.min;
 		}
+		
+		this.size += heap2.size;
+		this.nTrees += heap2.nTrees;
+		
 		return; // should be replaced by student code   		
 	}
 
@@ -331,4 +340,3 @@ public class FibonacciHeap
 		}
 	}
 }
-
