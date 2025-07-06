@@ -1,4 +1,4 @@
-
+package fibonacciHeaps;
 /**
  * FibonacciHeap
  *
@@ -146,6 +146,10 @@ public class FibonacciHeap
 					down = tmp;
 				}
 				else {
+					if ((HeapNode)lst.get(tmp.rank) == tmp) {
+						System.out.println(9);
+						continue;
+					}
 					up = tmp;
 					down = (HeapNode)lst.get(tmp.rank);
 				}
@@ -249,8 +253,15 @@ public class FibonacciHeap
 	 */
 	public int delete(HeapNode x) 
 	{    
+
+		//System.out.println(this.nTrees);
+		//System.out.println(this.min.rank);
+		//System.out.println(this.nTrees);
 		this.decreaseKey(x, x.key-this.min.key+1);
+		//System.out.println(this.min.rank);
+		//System.out.println(this.nTrees);
 		return this.deleteMin(); // should be replaced by student code
+		
 	}
 
 
