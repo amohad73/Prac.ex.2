@@ -158,6 +158,10 @@ public class FibonacciHeap
 				up.child = down;
 				down.parent = up;
 				up.rank += 1;
+				if (up.rank > max) {
+					lst.add(null);
+					max += 1;
+				}
 				cnt += 1;
 				lst.set(down.rank, null);
 				tmp = up;
@@ -173,7 +177,7 @@ public class FibonacciHeap
 		HeapNode p = this.min;
 		this.min.prev = this.min;
 		this.min.next = this.min;
-		System.out.println(lst);
+		//System.out.println(lst);
 		for (int i = 0; i < lst.size(); i++) {
 			if ((lst.get(i) == null) || (((HeapNode)lst.get(i)).key == this.min.key)) {
 				continue;
@@ -314,6 +318,8 @@ public class FibonacciHeap
 		return this.nTrees; // should be replaced by student code
 	}
 
+	
+	
 	/**
 	 * Class implementing a node in a Fibonacci Heap.
 	 *  
