@@ -146,10 +146,6 @@ public class FibonacciHeap
 					down = tmp;
 				}
 				else {
-					if ((HeapNode)lst.get(tmp.rank) == tmp) {
-						System.out.println(9);
-						continue;
-					}
 					up = tmp;
 					down = (HeapNode)lst.get(tmp.rank);
 				}
