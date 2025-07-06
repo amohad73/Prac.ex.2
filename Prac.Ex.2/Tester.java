@@ -31,7 +31,7 @@ public class Tester {
         final int C = 2;
         List<Integer> lst = new ArrayList<>();
         var fibonacciHeap = new FibonacciHeap(C);
-        for(int i = 0; i < N; i++){
+        for(int i = 1; i < N+1; i++){
             lst.add(i);
         }
         Collections.shuffle(lst);
@@ -42,12 +42,12 @@ public class Tester {
         long startTime = System.nanoTime();
 
         for(int i = 0; i < N; i++) {
-            arr[lst.get(i)] = fibonacciHeap.insert(lst.get(i), "");
+            arr[lst.get(i)-1] = fibonacciHeap.insert(lst.get(i), "");
         }
 
         //test 1
         fibonacciHeap.deleteMin();
-        while(fibonacciHeap.size()>46) {
+        while(fibonacciHeap.size()>450000) {
             fibonacciHeap.delete(arr[max]);
             max -= 1;
         }
